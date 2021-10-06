@@ -24,23 +24,23 @@ app.post('/getURL', (req, res) => {
   const origin_url = req.body.originalURL
   console.log(origin_url) // OK 'http...'
 
-  let short_url = URL_host + `/${getRandom5()}`
   // Shortened before
-  // UrlRecords.find({ origin_url: origin_url })
-  //   .lean()
-  //   .then(urlRecord => {
-  //     console.log(urlRecord)
-  //     res.render('index', { short_url: urlRecord.short_url })
-  //   })
-  //   .catch(error => { console.log(error) })
-
-  // New URL
-  UrlRecords.create({ origin_url, short_url })
-    .then(() => {
-      res.render('index', { short_url })
+  UrlRecords.findOne({ origin_url: origin_url })
+    .lean()
+    .then(urlRecord => {
+      console.log(urlRecord)  // { _id: ..., origin_url: ..., } or null
+      if (urlRecord) {
+        res.render('index', { short_url: urlRecord.short_url, origin_url: origin_url })
+      } else if (urlRecord == null || urlRecord == undefined) {  
+        let short_url = URL_host + `/${getRandom5()}`
+        UrlRecords.create({ origin_url, short_url })
+          .then(() => {
+            res.render('index', { origin_url, short_url })
+          })
+          .catch(error => { console.log(error) })
+      }
     })
     .catch(error => { console.log(error) })
-
 })
 
 function getRandom5() {
@@ -48,7 +48,6 @@ function getRandom5() {
   let random5 = ""
   for (let i = 1; i <= 5; i++) {
     let index = Math.floor(Math.random() * characters.length)
-    console.log(index)
     random5 += characters[index]
   }
   return random5
