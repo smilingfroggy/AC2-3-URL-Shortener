@@ -9,4 +9,10 @@
       <button class="btn btn-primary" type="submit">Shorten!</button>
     </form>
   </div>
+
+  {{#if short_url}}
+  <div class="container mt-4">
+    <p>Shortened URL: {{ short_url }}</p>
+  </div>
+  {{/if}}
 </div>
