@@ -43,6 +43,17 @@ app.post('/getURL', (req, res) => {
     .catch(error => { console.log(error) })
 })
 
+app.get('/:code', (req, res) => {
+  const code = req.params.code
+  console.log(`${URL_host}/${code}`)
+  UrlRecords.findOne({ short_url: `${URL_host}/${code}`})
+    .lean()
+    .then(urlRecord => {
+      console.log(urlRecord.origin_url)
+      res.redirect(`${urlRecord.origin_url}`)
+    })
+})
+
 function getRandom5() {
   const characters = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   let random5 = ""
