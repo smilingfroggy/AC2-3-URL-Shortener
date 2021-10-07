@@ -10,7 +10,7 @@ const URL_host = `http://localhost:${PORT}`
 app.engine('handlebars', exphbs({ defaultLayout: "main" }))
 app.set('view engine', 'handlebars')
 // static files: style.css
-app.set(express.static('public'))
+app.use(express.static('public'))
 // body-parser
 app.use(express.urlencoded({ extended: true }))
 
@@ -31,7 +31,7 @@ app.post('/getURL', (req, res) => {
       console.log(urlRecord)  // { _id: ..., origin_url: ..., } or null
       if (urlRecord) {
         res.render('index', { short_url: urlRecord.short_url, origin_url: origin_url })
-      } else if (urlRecord == null || urlRecord == undefined) {  
+      } else if (urlRecord == null || urlRecord == undefined) {
         let short_url = URL_host + `/${getRandom5()}`
         UrlRecords.create({ origin_url, short_url })
           .then(() => {
@@ -49,7 +49,6 @@ app.get('/:code', (req, res) => {
   UrlRecords.findOne({ short_url: `${URL_host}/${code}`})
     .lean()
     .then(urlRecord => {
-      console.log(urlRecord.origin_url)
       res.redirect(`${urlRecord.origin_url}`)
     })
 })

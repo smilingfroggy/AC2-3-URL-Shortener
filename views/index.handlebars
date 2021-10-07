@@ -1,19 +1,19 @@
-<div class="container" style="width: 500px">
+<div class="container flex-container">
   <h2>URL Shortener</h2>
   <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt=""
     style="height: 200px; weight: 200px" class="logo my-4">
 
-  <div class="container">
-    <form action="/getURL" method="post">
+    <form action="/getURL" method="post" class="flex-container">
       <input class="form-control mb-4" type="url" placeholder="Original URL..." name="originalURL"
         value="{{origin_url}}">
       <button class="btn btn-primary" type="submit">Shorten!</button>
     </form>
-  </div>
 
   {{#if short_url}}
-  <div class="container mt-4">
-    <p>Shortened URL: {{ short_url }}</p>
+  <div class="flex-container mt-4">
+    <h4>Shortened URL:</h4>
+    <input class="form-control mb-4" type="url" value="{{ short_url }}" id="shortUrlInput">
+    <button class="btn btn-primary" onclick="copyIt()">Copy!</button>
   </div>
   {{/if}}
 </div>

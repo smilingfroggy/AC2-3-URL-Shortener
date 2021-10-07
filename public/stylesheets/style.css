@@ -1,4 +1,10 @@
-.logo {
-  height: 200px;
-  border: 1px solid #ced4da;
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  /* width: 700px; */
+  align-items: center;
+}
+
+input {
+  min-width: 400px;
 }
