@@ -14,9 +14,8 @@ app.use(express.static('public'))
 // body-parser
 app.use(express.urlencoded({ extended: true }))
 
+// routes
 app.get('/', (req, res) => {
-  //   res.send(`<h3>URL Shortener</h3>
-  // <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt="">`)
   res.render('index')
 })
 
@@ -46,11 +45,12 @@ app.post('/getURL', (req, res) => {
 app.get('/:code', (req, res) => {
   const code = req.params.code
   console.log(`${URL_host}/${code}`)
-  UrlRecords.findOne({ short_url: `${URL_host}/${code}`})
+  UrlRecords.findOne({ short_url: `${URL_host}/${code}` })
     .lean()
     .then(urlRecord => {
       res.redirect(`${urlRecord.origin_url}`)
     })
+    .catch(error => { console.log(error) })
 })
 
 function getRandom5() {
